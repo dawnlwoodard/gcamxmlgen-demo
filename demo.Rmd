@@ -1,0 +1,111 @@
+---
+title: "gcamxmlgen demo"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(gcamxmlgen)
+library(dplyr)
+input_dir <- "./inputs/"
+output_dir <- "./outputs/"
+```
+
+## Setting multiple nodes to a single value
+
+The function set_xml() does a lot of leg work and can take either a single value to be applied to annual timeseries data.
+
+For example, if we want to change the value of the capacity limit for renewable backups. You need to know the name of the leaf whose value you want to modify (in this case it is 'capacity-limit'), and then identify the outer nodes characteristics that define the full set of nodes you want to modify. In this case we want all nodes named 'intermittent-technology' that have any attribute related to solar energy. We also need to specify the output file.  
+
+```{r elec_water}
+elec_water_file <- paste0(input_dir, "electricity_water.xml")
+
+elec_water_hi <- set_xml(elec_water_file, 0.23, leaf_name="capacity-limit", node_name="intermittent-technology",
+                         node_attrs=list("name"=c("PV", "CSP (recirculating)", "rooftop_pv", "CSP (dry_hybrid)")),
+                         output_filename = paste0(output_dir, "electricity_water_hi.xml"))
+```
+
+## Setting nodes by year
+
+To use set_xml() with a time series of annual data, we just need to process that time series into a dataframe and pass it to set_xml(). Below is an example taking data from the IIASA1.5 scenario database and generating a large set of emissions constraints. 
+
+First we read in and clean the data according to the values of interested (scenarios that have temperatures below 2.0 in 2100). 
+```{r process data}
+
+iiasa <- read.csv("inputs/iiasa_1-5_scenarios.csv")
+iiasa <- iiasa %>% select(-c("X2000")) %>% na.omit()
+iiasa$name <- paste(iiasa$Model, iiasa$Scenario, sep="_")
+
+# Identify scenarios of interest
+iiasa %>% filter(Variable=="Temperature|Global Mean",X2100<2.0) -> iiasa_low_temp
+
+# Capture scenarios of interest from full dataset
+iiasa_filtered <- filter(iiasa, name %in% unique(iiasa_low_temp$name))
+
+iiasa_long <- iiasa_filtered %>% filter(Variable=="Emissions|CO2|Energy and Industrial Processes") %>%
+  dplyr::select(c("name","Variable",tidyselect::starts_with("X"))) %>%
+  tidyr::pivot_longer(cols=tidyselect::starts_with("X"), names_to="year", names_prefix = "X", values_to = "value") %>%
+  dplyr::mutate(value=value*(12.0/44))
+
+```
+
+Now we have the data ready to go, we can create xml files for each scenario from an example constraint file (you can use any existing constraint file that has the format you want).
+
+```{r make xmls by year}
+ghg_constraint_template <- paste0(input_dir,"ghgpolicy_constraint_template.xml")
+
+scenarios <- unique(iiasa_long$name)
+
+for (s in scenarios){
+  print(paste0("Starting: ",s))
+
+  s_strip <- gcamxmlgen::strip_string(s)  # clean up scenario name so it can be used for file naming
+
+  emissions_data <- filter(iiasa_long, name == {{s}})
+
+  ghg_file <- paste0(output_dir,"iiasa/", s_strip, ".xml")
+
+  emiss_ghg <- set_xml(ghg_constraint_template, emissions_data, "constraint",
+                       leaf_attrs=NULL, node_name="ghgpolicy", node_attrs=list("name"="CO2_LTG"),
+                       output_filename=ghg_file, col_name = "value" )
+
+}
+```
+
+
+## Add a new child node to an input file
+
+This package can also be used to add a new child node to specific nodes in an existing xml file. Below is an example of electrifying certain transportation components by setting fuelPrefElasticity.
+
+```{r electrification}
+
+transport_ssp1_file <- paste0(input_dir, "transportation_UCD_SSP1.xml")
+transport_ssp1_outfile <- paste0(output_dir, "transport_SSP1_hi_elec.xml")
+node_name <- c("stub-technology")
+node_attrs <- list("name"="BEV")
+
+child_string <- "<fuelprefElasticity fillout='1' year='1975'>1</fuelprefElasticity>"
+
+gcamxmlgen::add_children_to_xml(transport_ssp1_file, child_string, c("stub-technology"), list("name"="BEV"), transport_ssp1_outfile)
+
+```
+
+
+## Create a batch file automatically 
+
+If you have input files for a GCAM run organized in separate folders by component, you can use gcamxmlgen to create a batch file using an example batch file as a template. 
+
+```{r batch file}
+
+ensemble_set <- list("constraints"="~/Dropbox/Research/gcam_projects/exp1/junior/make_xmls/iiasa_constraints/ghg/",
+                     "bio"="~/Dropbox/Research/gcam_projects/exp1/junior/make_xmls/bio/")
+
+other_text <- list("constraints"=c("<Value name='near-term-co2'>../input/scenario_inputs/spa14_tax.xml</Value>","<Value name='co2-link'>../input/scenario_inputs/2025_target_finder.xml</Value>"))
+
+sample_batch_file <- "inputs/batch_256_orig_best_with-bio.xml"
+batch_root <- gcamxmlgen::get_file_stem(sample_batch_file)
+input_dir <- "../input/scenario_inputs/iiasa/"
+
+gcamxmlgen::make_batch(input_dir, ensemble_set, outfile=paste0(output_dir,"batch_iiasa.xml"), other_text=other_text)
+
+```

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scenario>
+  <world>
+    <region name="USA">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+        <constraint year="2025">7885.99453636364</constraint>
+        <constraint year="2030">5390.59311818182</constraint>
+        <constraint year="2035">2906.2311</constraint>
+        <constraint year="2040">2346.85748181818</constraint>
+        <constraint year="2045">1866.29331818182</constraint>
+        <constraint year="2050">1271.62306363636</constraint>
+        <constraint year="2055">641.011336363636</constraint>
+        <constraint year="2060">287.343872727273</constraint>
+        <constraint year="2065">-138.079254545455</constraint>
+        <constraint year="2070">-416.579618181818</constraint>
+        <constraint year="2075">-668.545881818182</constraint>
+        <constraint year="2080">-869.094245454545</constraint>
+        <constraint year="2085">-1068.60332727273</constraint>
+        <constraint year="2090">-1239.61622727273</constraint>
+        <constraint year="2095">-1384.43416363636</constraint>
+        <constraint year="2100">-1354.57898181818</constraint>
+      </ghgpolicy>
+    </region>
+    <region name="Canada">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="EU-15">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Europe_Non_EU">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="European Free Trade Association">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Japan">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Australia_NZ">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Central Asia">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Russia">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="China">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Middle East">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Africa_Eastern">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Africa_Northern">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Africa_Southern">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Africa_Western">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="South Africa">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Brazil">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Central America and Caribbean">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Mexico">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="South America_Northern">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="South America_Southern">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Argentina">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Colombia">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Indonesia">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Pakistan">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="South Asia">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Southeast Asia">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Taiwan">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="Europe_Eastern">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="EU-12">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="South Korea">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+    <region name="India">
+      <ghgpolicy name="CO2_LTG">
+        <market>global</market>
+      </ghgpolicy>
+    </region>
+  </world>
+</scenario>
